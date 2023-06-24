@@ -11,7 +11,7 @@ from autogpt.utils import clean_input
 
 CFG = Config()
 
-DEFAULT_TRIGGERING_PROMPT = "Determine exactly one command to use, and respond using the format specified above:"
+DEFAULT_TRIGGERING_PROMPT = "确定下一步使用的命令，并使用上面规定的格式进行回答:"
 
 
 def build_default_prompt_generator() -> PromptGenerator:
@@ -52,28 +52,28 @@ def construct_main_ai_config() -> AIConfig:
     """
     config = AIConfig.load(CFG.ai_settings_file)
     if CFG.skip_reprompt and config.ai_name:
-        logger.typewriter_log("Name :", Fore.GREEN, config.ai_name)
-        logger.typewriter_log("Role :", Fore.GREEN, config.ai_role)
-        logger.typewriter_log("Goals:", Fore.GREEN, f"{config.ai_goals}")
+        logger.typewriter_log("名称 :", Fore.GREEN, config.ai_name)
+        logger.typewriter_log("角色 :", Fore.GREEN, config.ai_role)
+        logger.typewriter_log("目标:", Fore.GREEN, f"{config.ai_goals}")
         logger.typewriter_log(
-            "API Budget:",
+            "API 预算:",
             Fore.GREEN,
-            "infinite" if config.api_budget <= 0 else f"${config.api_budget}",
+            "无限" if config.api_budget <= 0 else f"${config.api_budget}",
         )
     elif config.ai_name:
         logger.typewriter_log(
-            "Welcome back! ",
+            "您回来啦! ",
             Fore.GREEN,
-            f"Would you like me to return to being {config.ai_name}?",
+            f"您还希望继续使用  {config.ai_name}吗?",
             speak_text=True,
         )
         should_continue = clean_input(
-            f"""Continue with the last settings?
-Name:  {config.ai_name}
-Role:  {config.ai_role}
-Goals: {config.ai_goals}
-API Budget: {"infinite" if config.api_budget <= 0 else f"${config.api_budget}"}
-Continue ({CFG.authorise_key}/{CFG.exit_key}): """
+            f"""继续使用上次的配置吗？
+名称:  {config.ai_name}
+角色:  {config.ai_role}
+目标: {config.ai_goals}
+API 预算: {"infinite" if config.api_budget <= 0 else f"${config.api_budget}"}
+继续 ({CFG.authorise_key}/{CFG.exit_key}): """
         )
         if should_continue.lower() == CFG.exit_key:
             config = AIConfig()
@@ -96,17 +96,17 @@ Continue ({CFG.authorise_key}/{CFG.exit_key}): """
     logger.typewriter_log(
         config.ai_name,
         Fore.LIGHTBLUE_EX,
-        "has been created with the following details:",
+        "已经被建立成功，具体信息如下:",
         speak_text=True,
     )
 
     # Print the ai config details
     # Name
-    logger.typewriter_log("Name:", Fore.GREEN, config.ai_name, speak_text=False)
+    logger.typewriter_log("名称:", Fore.GREEN, config.ai_name, speak_text=False)
     # Role
-    logger.typewriter_log("Role:", Fore.GREEN, config.ai_role, speak_text=False)
+    logger.typewriter_log("角色:", Fore.GREEN, config.ai_role, speak_text=False)
     # Goals
-    logger.typewriter_log("Goals:", Fore.GREEN, "", speak_text=False)
+    logger.typewriter_log("目标:", Fore.GREEN, "", speak_text=False)
     for goal in config.ai_goals:
         logger.typewriter_log("-", Fore.GREEN, goal, speak_text=False)
 
