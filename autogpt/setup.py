@@ -28,22 +28,22 @@ def prompt_user(config: Config) -> AIConfig:
 
     # Construct the prompt
     logger.typewriter_log(
-        "Welcome to Auto-GPT! ",
+        "欢迎来到Auto-GPT! ",
         Fore.GREEN,
-        "run with '--help' for more information.",
+        "执行 '--help' 获取更多信息.",
         speak_text=True,
     )
 
     # Get user desire
     logger.typewriter_log(
-        "Create an AI-Assistant:",
+        "创建一个AI助手:",
         Fore.GREEN,
-        "input '--manual' to enter manual mode.",
+        "输入 '--manual' 进入手动模式.",
         speak_text=True,
     )
 
     user_desire = utils.clean_input(
-        config, f"{Fore.LIGHTBLUE_EX}I want Auto-GPT to{Style.RESET_ALL}: "
+        config, f"{Fore.LIGHTBLUE_EX}我希望Auto-GPT帮我{Style.RESET_ALL}: "
     )
 
     if user_desire == "":
@@ -52,7 +52,7 @@ def prompt_user(config: Config) -> AIConfig:
     # If user desire contains "--manual"
     if "--manual" in user_desire:
         logger.typewriter_log(
-            "Manual Mode Selected",
+            "手动模式已启动",
             Fore.GREEN,
             speak_text=True,
         )
@@ -63,9 +63,9 @@ def prompt_user(config: Config) -> AIConfig:
             return generate_aiconfig_automatic(user_desire, config)
         except Exception as e:
             logger.typewriter_log(
-                "Unable to automatically generate AI Config based on user desire.",
+                "无法基于用户偏好生成AI配置.",
                 Fore.RED,
-                "Falling back to manual mode.",
+                "回滚至手动模式.",
                 speak_text=True,
             )
 
@@ -86,43 +86,39 @@ def generate_aiconfig_manual(config: Config) -> AIConfig:
 
     # Manual Setup Intro
     logger.typewriter_log(
-        "Create an AI-Assistant:",
+        "建立一个AI助手:",
         Fore.GREEN,
-        "Enter the name of your AI and its role below. Entering nothing will load"
-        " defaults.",
+        "给你AI助手起一个名字和赋予它一个角色，什么都不输入将使用默认值.",
         speak_text=True,
     )
 
     # Get AI Name from User
     logger.typewriter_log(
-        "Name your AI: ", Fore.GREEN, "For example, 'Entrepreneur-GPT'"
+        "你AI的名字叫: ", Fore.GREEN, "例如, '企业家-GPT'"
     )
-    ai_name = utils.clean_input(config, "AI Name: ")
+    ai_name = utils.clean_input(config, "AI 名字: ")
     if ai_name == "":
-        ai_name = "Entrepreneur-GPT"
+        ai_name = "企业家-GPT"
 
     logger.typewriter_log(
-        f"{ai_name} here!", Fore.LIGHTBLUE_EX, "I am at your service.", speak_text=True
+        f"{ai_name} 在这儿呢!", Fore.LIGHTBLUE_EX, "我听从您的吩咐.", speak_text=True
     )
 
     # Get AI Role from User
     logger.typewriter_log(
-        "Describe your AI's role: ",
+        "描述你AI的角色: ",
         Fore.GREEN,
-        "For example, 'an AI designed to autonomously develop and run businesses with"
-        " the sole goal of increasing your net worth.'",
+        "例如, '一个自动帮助你策划与经营业务的人工智能帮手，目标专注于提升你的净资产.'",
     )
     ai_role = utils.clean_input(config, f"{ai_name} is: ")
     if ai_role == "":
-        ai_role = "an AI designed to autonomously develop and run businesses with the"
-        " sole goal of increasing your net worth."
+        ai_role = "一个自动帮助你策划与经营业务的人工智能帮手，目标专注于提升你的净资产."
 
     # Enter up to 5 goals for the AI
     logger.typewriter_log(
-        "Enter up to 5 goals for your AI: ",
+        "为你的AI定义最多5个目标:  ",
         Fore.GREEN,
-        "For example: \nIncrease net worth, Grow Twitter Account, Develop and manage"
-        " multiple businesses autonomously'",
+        "例如: \n提升净资产, 增长Twitter账户, 自动化策划与管理多条业务线'",
     )
     logger.info("Enter nothing to load defaults, enter nothing when finished.")
     ai_goals = []
@@ -135,20 +131,20 @@ def generate_aiconfig_manual(config: Config) -> AIConfig:
         ai_goals.append(ai_goal)
     if not ai_goals:
         ai_goals = [
-            "Increase net worth",
-            "Grow Twitter Account",
-            "Develop and manage multiple businesses autonomously",
+            "提升净资产",
+            "增长Twitter账户",
+            "自动化策划与管理多条业务线",
         ]
 
     # Get API Budget from User
     logger.typewriter_log(
-        "Enter your budget for API calls: ",
+        "输入你的API预算:  ",
         Fore.GREEN,
-        "For example: $1.50",
+        "例如: $1.50",
     )
-    logger.info("Enter nothing to let the AI run without monetary limit")
+    logger.info("什么都不输入将让你的AI驰骋飞翔")
     api_budget_input = utils.clean_input(
-        config, f"{Fore.LIGHTBLUE_EX}Budget{Style.RESET_ALL}: $"
+        config, f"{Fore.LIGHTBLUE_EX}预算{Style.RESET_ALL}: $"
     )
     if api_budget_input == "":
         api_budget = 0.0
@@ -157,7 +153,7 @@ def generate_aiconfig_manual(config: Config) -> AIConfig:
             api_budget = float(api_budget_input.replace("$", ""))
         except ValueError:
             logger.typewriter_log(
-                "Invalid budget input. Setting budget to unlimited.", Fore.RED
+                "错误的预算输入. 开启吃撑飞翔模式.", Fore.RED
             )
             api_budget = 0.0
 
